@@ -64,10 +64,16 @@ const posts = [
 const container = document.getElementById("container")
 
 for (let index = 0; index < posts.length; index++) {
-    const element = posts[index];
-    const creationDateObj = dateToDateObj(element.created);
-    const dateUSA = `${creationDateObj.month}/${creationDateObj.day}/${creationDateObj.year}`;
 
+    const element = posts[index];
+
+    const creationDateObj = dateToDateObj(element.created);
+
+    // const dateUSA = `${creationDateObj.month}/${creationDateObj.day}/${creationDateObj.year}`;
+
+    const dateITA = `${creationDateObj.day}/${creationDateObj.month}/${creationDateObj.year}`;
+
+    console.log(getNameInitials(element.author.name))
 
 
     container.innerHTML += 
@@ -80,7 +86,7 @@ for (let index = 0; index < posts.length; index++) {
 
                 <div class="post-meta__icon">
 
-                    <img class="profile-pic" src="${element.author.image}" alt="${element.author.name}">                    
+                    <img class="profile-pic" src="${element.author.image}" alt="${getNameInitials(element.author.name)}">                    
                 
                 </div>
 
@@ -88,7 +94,7 @@ for (let index = 0; index < posts.length; index++) {
 
                     <div class="post-meta__author">${element.author.name}</div>
 
-                    <div class="post-meta__time">${dateUSA}</div>
+                    <div class="post-meta__time">${dateITA}</div>
 
                 </div>       
 
@@ -173,14 +179,19 @@ allLikeButton.forEach((element, i) => {
 });
 
 
-
+const allProfilePic = document.querySelectorAll(".profile-pic")
     
 
+allProfilePic.forEach((element,i)=>{
+    
+    element.addEventListener("error", function(){
+        this.parentElement.innerHTML=  `<div class="profile-pic-default"><span>${getNameInitials(posts[i].author.name)}</span></div>`
+    })
+})
 
 
 
-
-
+// ----------FUNCTIONS-----------
 
 function dateToDateObj(date){
 
@@ -222,4 +233,14 @@ function dateToDateObj(date){
     
         return dateObj;
     
+}
+
+function getNameInitials(fullName){
+   const fullNameArr = fullName.split(" ");
+
+   const firstNameSFirstLetter = fullNameArr[0][0] ;
+   const lastNameSFirstLetter = fullNameArr[fullNameArr.length-1][0]
+
+   const nameInitials = firstNameSFirstLetter+lastNameSFirstLetter;
+   return nameInitials;
 }
