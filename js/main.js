@@ -70,74 +70,111 @@ for (let index = 0; index < posts.length; index++) {
 
 
 
-    container.innerHTML += `<div class="post">
+    container.innerHTML += 
+    
+    `<div class="post">
 
-            <div class="post__header">
+        <div class="post__header">
 
-                <div class="post-meta">   
+            <div class="post-meta">   
 
-                    <div class="post-meta__icon">
+                <div class="post-meta__icon">
 
-                        <img class="profile-pic" src="${element.author.image}" alt="${element.author.name}">                    
-                   
-                    </div>
+                    <img class="profile-pic" src="${element.author.image}" alt="${element.author.name}">                    
+                
+                </div>
 
-                    <div class="post-meta__data">
+                <div class="post-meta__data">
 
-                        <div class="post-meta__author">${element.author.name}</div>
+                    <div class="post-meta__author">${element.author.name}</div>
 
-                        <div class="post-meta__time">${dateUSA}</div>
+                    <div class="post-meta__time">${dateUSA}</div>
 
-                    </div>       
+                </div>       
+
+            </div>
+
+        </div>
+
+        <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
+        
+        <div class="post__image">
+
+            <img src="${element.media}" alt="">
+
+        </div>
+
+        <div class="post__footer">
+
+            <div class="likes js-likes">
+
+                <div class="likes__cta">
+
+                    <a class="like-button  js-like-button" href="#nogo" data-postid="${element.id}">
+
+                        <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
+
+                        <span class="like-button__label">Mi Piace</span>
+
+                    </a>
+
+                </div>
+
+                <div class="likes__counter">
+
+                    Piace a <b id="like-counter-${element.id}" class="js-likes-counter">${element.likes}</b> persone
 
                 </div>
 
             </div>
+                
+        </div>      
 
-            <div class="post__text">Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.</div>
-            
-            <div class="post__image">
+    </div>`
 
-                <img src="${element.media}" alt="">
-
-            </div>
-
-            <div class="post__footer">
-
-                <div class="likes js-likes">
-
-                    <div class="likes__cta">
-
-                        <a class="like-button  js-like-button" href="#" data-postid="${element.id}">
-
-                            <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
-
-                            <span class="like-button__label">Mi Piace</span>
-
-                        </a>
-
-                    </div>
-
-                    <div class="likes__counter">
-
-                        Piace a <b id="like-counter-1" class="js-likes-counter">${element.likes}</b> persone
-
-                    </div>
-
-                </div>
-                 
-            </div>      
-
-        </div>`
 }
 
 
 
+const allLikeButton = document.querySelectorAll(".like-button");
+const likedPosts = []
+
+
+allLikeButton.forEach((element, i) => {
+
+    element.addEventListener("click",function(){
+
+        const thisPost = this.getAttribute("data-postid");
+        
+        if(this.classList.contains("like-button--liked")){
+        
+        
+            likedPosts.splice(likedPosts.indexOf(thisPost),1);
+            
+            posts[i].likes--;
+
+        }
+    
+        else{
+            likedPosts.push(thisPost);
+            
+            posts[i].likes++;
+
+        }
+        
+        this.classList.toggle("like-button--liked");
+        
+        const likesCounter = document.getElementById(`like-counter-${thisPost}`);
+     
+        likesCounter.innerHTML = posts[i].likes;
+
+    })
+    
+});
 
 
 
-
-
+    
 
 
 
@@ -159,15 +196,30 @@ function dateToDateObj(date){
 
     for (let index = 0; index < arr.length; index++) {
 
-        const element = arr[index];
+        switch (index) {
 
-        for (const key in dateObj) {
+            case 0:{
+                dateObj.year=arr[index]
+                
+               
+            }
 
-            dateObj[key] = element;
+            case 1:{
+                dateObj.month=arr[index]
+                
+               
+            }
+
+            case 2:{
+                dateObj.day=arr[index]
+                
+               
+            }
          
         }
-        
-    }
 
-    return dateObj;
+    }
+    
+        return dateObj;
+    
 }
