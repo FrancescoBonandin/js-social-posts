@@ -193,9 +193,9 @@ allProfilePic.forEach((element,i)=>{
 
 // ----------FUNCTIONS-----------
 
-function dateToDateObj(date){
+function dateToDateObj(dateyyyymmgg){
 
-    let arr = date.split("-");
+    let arr = dateyyyymmgg.split("-");
 
     let dateObj = {
 
